@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Guitar Supporter: Model upgrade</title>
+    <title>Guitar Supporter: Increase Accuracy</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -51,8 +51,9 @@
         <div class="row no-gutters slider-text js-fullheight justify-content-center align-items-center">
           <div class="col-lg-10 ftco-animate d-flex align-items-center">
           	<div class="text text-center">
-          		<h1 class="mb-3 bread">Blog Single Post</h1>
-	            <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span class="mr-2"><a href="intro.html">Blog <i class="ion-ios-arrow-forward"></i></a></span> <span>Blog Single <i class="ion-ios-arrow-forward"></i></span></p>
+          		<h1 class="mb-3 bread">Guitar Supporter2: Increase Accuracy of Hands Model</h1>
+	            <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span> <span class="mr-2"><a href="intro.html">Blog <i class="ion-ios-arrow-forward"></i></a></span> <span>Machine/Deep Learning <i class="ion-ios-arrow-forward"></i></span></p>
+            <div style="text-align: center;"><img src="images/guitar_2.png" alt="" class="img-fluid"></div>
             </div>
           </div>
         </div>
@@ -63,31 +64,133 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-8 ftco-animate">
-            <h2 class="mb-3">It is a long established fact a reader be distracted</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis, eius mollitia suscipit, quisquam doloremque distinctio perferendis et doloribus unde architecto optio laboriosam porro adipisci sapiente officiis nemo accusamus ad praesentium? Esse minima nisi et. Dolore perferendis, enim praesentium omnis, iste doloremque quia officia optio deserunt molestiae voluptates soluta architecto tempora.</p>
+            <h2 class="mb-3">Guitar Fingering Recognition Model</h2>
+              <h5>I. 서론 </h5>
+            <p>지난번 언구 "Shall We Play?: 좋아하는 음악을 연주하고 싶어하는 모든 사람들에게 드리는 선물"에 이어서 나온 후속 연구이다. 지난번 연구에서의 한계점 중 하나인 일반적으로 사람들이 쓰는
+                모든 코드를 맞출 수 없다는 점과 정확도를 85%에서 더 높이기 위해 기타운지모델을 심층적으로 연구하여 새롭게 발굴해보기로 했다. 더 나아가 가능한 선에서 정밀한 손 모델이 만들어질 수 있다면 만들어보기로 했다. </p>
+            <p>이번에도 코드를 수집함에 있어서 지난번 연구와 유사한 방식을 활용하기로 했다. 사람들이 흔하게 쓰는 35종의 코드를 YouTube를 활용해서 수집하기로 했다. 이떄, 20,000회 이상의 조회수를 기록한 유튜브 영상을 선택하였다. 이는
+            데이터의 품질, 정확성, 일반성과 대중성을 만족시키기 위함이였다. </p>
+            <h5 class="mb-3 mt-5">II. 연구 진행과정 </h5>
+            <h6>1. 수집 및 전처리</h6>
+            <p>수집을 진행할 때 다음과 같은 형태로 수집하였다. </p>
+              <p>
+              <div style="text-align: center;"><img src="images/guitar2_1.png" alt="" class="img-fluid"></div>
+              </p>
+              <p>지난번과 마찬가지로 데이터를 200*200 사이즈로 수집하였다. 또한 Media Pipe Model의 인식 때문에 color mode를 'gray scale'로 활용하였다.</p>
+              <p> 이 방식을 활용하여 35개의 기타 코드에 대하여 각각 6000장, 총 21만장의 이미지 데이터를 직접 수집하였다. </p>
+              <p> 수집을 진행하는 과정에서 위의 사진처럼 정상적으로 손이 나오는 경우만이 아닌 다음과 같은 사진이 나오기도 했었다. </p>
+              <p>
+              <div style="text-align: center;"><img src="images/guitar2_2.png" alt="" class="img-fluid"></div>
+              </p>
+              <p>가장 적합한 딥러닝 모델을 찾기 위해 다양한 딥러닝 모델을 epoch와 batch를 바꿔가며 적용하였다. </p>
+            <h6>2. 딥러닝 모델에 적용</h6>
+            <h6>ㄱ. 기초 CNN 모델</h6>
+              <p>먼저, 딥러닝 모델의 가장 기초가 되는 CNN 모델을 적용하였다.</p>
+              <p>
+              <div style="text-align: center;"><img src="images/guitar2_3.png" alt="" class="img-fluid"></div>
+              </p>
+              <p>위 사진에서 노란색으로 강조해둔 것은 layer의 개수이다. 기본값으로 첫번째 Convolution filter을 32로 설정, 두번째 Convolution filter을 64로 설정하였다.
+              maxpooling에서 pool_size와 strides를 처음에는 (2, 2), 두 번째를 (5, 5)로 설정해 빠르게 특징을 잡아서 정확도를 표현할 수 있게 하려 하였다.</p>
+              <p>또한, 사진에서는 보이지 않지만 이 layer의 개수를 변화해가며 가장 정확도가 높은 경우를 찾으려고 했다. 정확도는 뒤에 언급하고자 한다.</p>
+              <p>
+              <div style="text-align: center;"><img src="images/guitar2_4.png" alt="" class="img-fluid"></div>
+              </p>
+              <p>처음에는 21만장으로는 부족하다고 여겨 이미지를 증폭시키고자 augmentation을 실시하였으나, 두가지 경우에 대한 정확도를 비교한 결과 비슷했기 때문에 나중에는 augmentation을 뻈다.
+              수집한 코드의 경우 8:2의 비율로 train, test data를 나누었다. </p>
+              <p>
+              <div style="text-align: center;"><img src="images/guitar2_5.png" alt="" class="img-fluid"></div>
+              </p>
+              <p>
+              <div style="text-align: center;"><img src="images/guitar2_6.png" alt="" class="img-fluid"></div>
+              </p>
+            <p>또한 위 그림에서 표시한 epoch와 batch 사이즈를 변형시켜가며 분석을 진행하였다. 다음은 각 batch와 epoch에 따른 결과이다.</p>
+              <p>
+              <div style="text-align: center;"><img src="images/guitar2_7.png" alt="" class="img-fluid"></div>
+              <div style="text-align: center;">Epoch: 5, Batch: 64 => Accuracy: 60.28%</div>
+              </p>
+              <p>
+              <div style="text-align: center;"><img src="images/guitar2_8.png" alt="" class="img-fluid"></div>
+              <div style="text-align: center;">Epoch: 10, Batch: 64 => Accuracy: 62.89%</div>
+              </p>
+              <p>
+              <div style="text-align: center;"><img src="images/guitar2_9.png" alt="" class="img-fluid"></div>
+              <div style="text-align: center;">Epoch: 5, Batch: 32 => Accuracy: 55.27%</div>
+              </p>
+              <p>
+              <div style="text-align: center;"><img src="images/guitar2_10.png" alt="" class="img-fluid"></div>
+            <div style="text-align: center;">Epoch: 10, Batch: 32 => Accuracy: 65.63%</div>
+              </p>
+            <p>이 방법으로는 정확도의 최댓값이 65.63%가 나왔다. layer 수를 변형시켜가면서 했을 때의 정확도는 다음 표와 같이 나타났다.</p>
             <p>
-              <img src="images/image_3.jpg" alt="" class="img-fluid">
-            </p>
-            <p>Molestiae cupiditate inventore animi, maxime sapiente optio, illo est nemo veritatis repellat sunt doloribus nesciunt! Minima laborum magni reiciendis qui voluptate quisquam voluptatem soluta illo eum ullam incidunt rem assumenda eveniet eaque sequi deleniti tenetur dolore amet fugit perspiciatis ipsa, odit. Nesciunt dolor minima esse vero ut ea, repudiandae suscipit!</p>
-            <h2 class="mb-3 mt-5">#2. Creative WordPress Themes</h2>
-            <p>Temporibus ad error suscipit exercitationem hic molestiae totam obcaecati rerum, eius aut, in. Exercitationem atque quidem tempora maiores ex architecto voluptatum aut officia doloremque. Error dolore voluptas, omnis molestias odio dignissimos culpa ex earum nisi consequatur quos odit quasi repellat qui officiis reiciendis incidunt hic non? Debitis commodi aut, adipisci.</p>
+              <div style="text-align: center;"><img src="images/guitar2_11.png" alt="" class="img-fluid"></div>
+              </p>
+            <p>이 때, layer이 3개일 때 가장 정확도가 높게 나왔다. 이에 layer=3일 때 기준으로 batch와 epoch를 변형시켜가면서 정확도를 확인해보았다. 또한 image 사이즈를 축소했을 때 비슷한 정확도를 보였으므로 속도를 높이기 위해 이미지 사이즈를 100*100으로 줄여서 진행하였다.
+              결과는 다음과 같다. </p>
             <p>
-              <img src="images/image_4.jpg" alt="" class="img-fluid">
-            </p>
-            <p>Quisquam esse aliquam fuga distinctio, quidem delectus veritatis reiciendis. Nihil explicabo quod, est eos ipsum. Unde aut non tenetur tempore, nisi culpa voluptate maiores officiis quis vel ab consectetur suscipit veritatis nulla quos quia aspernatur perferendis, libero sint. Error, velit, porro. Deserunt minus, quibusdam iste enim veniam, modi rem maiores.</p>
-            <p>Odit voluptatibus, eveniet vel nihil cum ullam dolores laborum, quo velit commodi rerum eum quidem pariatur! Quia fuga iste tenetur, ipsa vel nisi in dolorum consequatur, veritatis porro explicabo soluta commodi libero voluptatem similique id quidem? Blanditiis voluptates aperiam non magni. Reprehenderit nobis odit inventore, quia laboriosam harum excepturi ea.</p>
-            <p>Adipisci vero culpa, eius nobis soluta. Dolore, maxime ullam ipsam quidem, dolor distinctio similique asperiores voluptas enim, exercitationem ratione aut adipisci modi quod quibusdam iusto, voluptates beatae iure nemo itaque laborum. Consequuntur et pariatur totam fuga eligendi vero dolorum provident. Voluptatibus, veritatis. Beatae numquam nam ab voluptatibus culpa, tenetur recusandae!</p>
-            <p>Voluptas dolores dignissimos dolorum temporibus, autem aliquam ducimus at officia adipisci quasi nemo a perspiciatis provident magni laboriosam repudiandae iure iusto commodi debitis est blanditiis alias laborum sint dolore. Dolores, iure, reprehenderit. Error provident, pariatur cupiditate soluta doloremque aut ratione. Harum voluptates mollitia illo minus praesentium, rerum ipsa debitis, inventore?</p>
-            <div class="tag-widget post-tag-container mb-5 mt-5">
-              <div class="tagcloud">
-                <a href="#" class="tag-cloud-link">Life</a>
-                <a href="#" class="tag-cloud-link">Sport</a>
-                <a href="#" class="tag-cloud-link">Tech</a>
-                <a href="#" class="tag-cloud-link">Travel</a>
-              </div>
-            </div>
-
-<!--            <div class="about-author d-flex p-4 bg-light">-->
+              <div style="text-align: center;"><img src="images/guitar2_12.png" alt="" class="img-fluid"></div>
+              </p>
+            <p>직접 모델을 만들어서 가장 최적의 모델을 만들기에는 한계가 명확했다. 정확도가 70%가 넘지 않았기 때문이다. 이에, 다른 사람들이 만든 모델을 활용하기로 하였다.</p>
+            <h6>ㄴ. VGG19 모델</h6>
+            <p>VGG19 모델을 적용해보기로 하였다. 다음은 VGG모델의 원리를 직관적으로 보여주는 그림이다.</p>
+            <p>
+              <div style="text-align: center;"><img src="images/guitar2_vgg.png" alt="" class="img-fluid"></div>
+              </p>
+            <p>위와 같은 방식으로 batch와 epoch를 변형시켜가면서 적용시켜본 결과는 정확도는 다음과 같았다. </p>
+            <p>
+              <div style="text-align: center;"><img src="images/guitar2_13.png" alt="" class="img-fluid"></div>
+              </p>
+            <p>최고의 정확도가 약 63%로 기본적인 모델보다 정확도가 낮은 결과가 나타났다. VGG모델의 경우 이미지 사이즈를 축소시키면 도리어 정확도가 낮게 나올 수 있다는 연구결과를 확인하고 다시 이미지 사이즈를 200*200으로 바꾼 후 진행하였다.</p>
+            <p>
+              <div style="text-align: center;"><img src="images/guitar2_14.png" alt="" class="img-fluid"></div>
+              </p>
+            <p>지금까지 해본 실험 결과 중 가장 높은 정확도인 69.34%의 정확도를 보였다. 하지만 이것만으로는 정확도가 높다고 할 수 없으므로 다른 모델을 사용해보기로 하였다. </p>
+            <h6>ㄷ. Resnet 모델</h6>
+            <p>
+              <div style="text-align: center;"><img src="images/guitar2_resnet.png" alt="" class="img-fluid"></div>
+              </p>
+            <p>다음은 resnet 모델을 활용해서 학습을 시켜보았다. 위와 비슷한 방식으로 실험한 결과는 다음과 같았다.</p>
+<p>
+              <div style="text-align: center;"><img src="images/guitar2_15.png" alt="" class="img-fluid"></div>
+              </p>
+            <p>이 때, epoch 10, batch 64일 때 제일 높은 정확도인 75.02%가 나온다. 다른 모델에 비해 정확도가 높은 이유는 깊은 layer에 따른 gradient vanishing 문제를 해결할 수 있는
+            resnet의 특성이 도움을 준 것이라고 생각한다.</p>
+            <p>하지만 정확도가 여전히 80%가 넘지 못했기 때문에 다른 모델을 통해 정확도를 상승을 더 시켜보고자 densenet 모델도 적용해보기로 했다. </p>
+            <h6>ㄹ. DenseNet 모델</h6>
+            <p>
+              <div style="text-align: center;"><img src="images/guitar2_dense.png" alt="" class="img-fluid"></div>
+              </p>
+            <p>마지막으로 densenet 모델을 활용해서 학습을 시켜보았다. 앞과 동일한 방식으로 실험한 결과는 다음과 같았다. </p>
+            <p>
+              <div style="text-align: center;"><img src="images/guitar2_16.png" alt="" class="img-fluid"></div>
+              </p>
+            <p>이 모델로 분석을 진행하였을 때에는 어떤 batch와 epoch를 설정하건 상관없이 약 30%의 균등한 오류율이 나타났다. </p>
+            <h6>ㅁ. 다른 관점에서의 접근</h6>
+            <p> 모델을 단순히 바꾼다고 정확도를 높일 수 없다는 것을 발견하고, 기본적인 CNN 모델로 해결을 할 수 없음을 발견하고, filter 값을 변형해보기로 하였다. 다음은 여러 방식으로 filter을 변화시키며 분석을 진행한 결과이다. </p>
+             <p>
+              <div style="text-align: center;"><img src="images/guitar2_17.png" alt="" class="img-fluid"></div>
+              </p>
+              <p>
+              <div style="text-align: center;"><img src="images/guitar2_18.png" alt="" class="img-fluid"></div>
+              </p>
+              <p>
+              <div style="text-align: center;"><img src="images/guitar2_19.png" alt="" class="img-fluid"></div>
+              </p>
+              <p>여러 방식으로 접근을 해보았지만 최종적으로 가장 높은 정확도는 70.07%였다. 이에 필터 또한 정확도에 영향을 미치기는 하나, 이 연구에서는 한계가 있다고 판단하였다.</p>
+              <h5> III. 결과 및 한계</h5>
+              <h6>1. 결과</h6>
+              <p>여러가지 모델과 다양한 epoch, batch, filter을 활용해 딥러닝을 진행한 최종적인 결과는 다음과 같다. </p>
+              <p>
+              <div style="text-align: center;"><img src="images/guitar2_20.png" alt="" class="img-fluid"></div>
+              </p>
+              <p>가장 높은 정확도를 가진 모델은 ResNet 모델로 약 75%까지의 정확도를 보였다. 다른 분석을의 경우 최대 약 70%의 정확도를 보였다. 하지만 정확도가 80%를 넘기지 않는 상황이기 떄문에 효용성은 없다고 볼 수 있다. </p>
+              <h6>2. 한계점</h6>
+              <p>한계점은 총 4가지가 존재한다. 첫번쨰는 컬러 이미지가 아닌 흑백 이미지로 이루어진 데이터셋이란 점이다. 손 인식 및 분석과 같은 섬세한 인식이 필요한 경우 컬러 이미지가 이번 연구에서 진행한
+                   흑백 이미지보다 더 인식을 잘 할 수 있다고 생각했다. 두번째는 데이터 수집의 한계이다. 처음 raw data를 수집할 때 컬러로 할 방법이 있었더라면 더 좋은 결과가 나왔을 수 있다고 생각한다.
+              세번째는 딥러닝 기술 자체의 한계이다. 지금 CNN 딥러닝 기술은 대개 차원을 기준으로 하는 것이여서 모양이 아닌 컬러에 최적화된 것으로 보였다. 만약에 최적화하는 다른 방법이 있었더라면 더 좋은 정확도가 나타나지 않았을까 예상한다.
+               마지막은 효율성 문제다. data 수집 과정에서 image size를 200*200보다 더 큰 사이즈로 수집했거나, 이미지 자체를 더 확대할 방법이 있었다면 정확도를 올렸을 수 있을 것이다. </p>
+              <h5>IIII. 결론</h5>
+              <p> 여러가지 딥러닝 모델을 적용한 결과, 정확도가 높게 나올 수 있는 모델은 존재하지 않았다. 한계점에서 말했던 문제들 중 최소 한가지 이상 해결하지 않으면 정확도가 올라가기 쉽지 않을 것으로 보인다.</p>
+              <!--            <div class="about-author d-flex p-4 bg-light">-->
 <!--              <div class="bio mr-5">-->
 <!--                <img src="images/person_1.jpg" alt="Image placeholder" class="img-fluid mb-4">-->
 <!--              </div>-->
@@ -223,11 +326,12 @@
             <div class="sidebar-box ftco-animate">
             	<h3 class="heading-sidebar">Categories</h3>
               <ul class="categories">
-                <li><a href="#">Data Engineering <span>()</span></a></li>
-                <li><a href="#">Data Analyzing <span>()</span></a></li>
-                <li><a href="#">Machine/Deep Learning <span>()</span></a></li>
-                <li><a href="#">Else <span>()</span></a></li>
-                  <li><a href="#">Side Projects <span>()</span></a></li>
+                <li><a href="intro_data_engineering.html">Data Engineering <span></span></a></li>
+                <li><a href="intro_data_analysis.html">Data Analyzing <span></span></a></li>
+                <li><a href="intro_ai.html">Machine/Deep Learning <span></span></a></li>
+                <li><a href="intro_else.html">Else <span></span></a></li>
+                  <li><a href="intro_side_projects.html">Side Projects <span></span></a></li>
+<!--                  <li><a href="intro_side_projects.html">Side Projects <span>(33)</span></a></li>-->
               </ul>
             </div>
 
@@ -317,15 +421,17 @@
               </ul>
             </div>
           </div>
-          <div class="col-md">
+         <div class="col-md">
              <div class="ftco-footer-widget mb-4">
               <h2 class="ftco-heading-2">Projects</h2>
               <ul class="list-unstyled">
 <!--                <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Web Design</a></li>-->
-                <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Web Development</a></li>
-                <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Data Engineering</a></li>
-                <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Data Analysis</a></li>
-                <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Machine/Deep Learning(AI)</a></li>
+<!--                <li><a href="#"><span class="icon-long-arrow-right mr-2"></span>Web Development</a></li>-->
+                <li><a href="intro_data_engineering.html"><span class="icon-long-arrow-right mr-2"></span>Data Engineering</a></li>
+                <li><a href="intro_data_analysis.html"><span class="icon-long-arrow-right mr-2"></span>Data Analysis</a></li>
+                <li><a href="intro_ai.html"><span class="icon-long-arrow-right mr-2"></span>Machine/Deep Learning(AI)</a></li>
+				  <li><a href="intro_else.html"><span class="icon-long-arrow-right mr-2"></span>Else</a></li>
+				  <li><a href="intro_side_projects.html"><span class="icon-long-arrow-right mr-2"></span>Side Projects</a></li>
               </ul>
             </div>
           </div>
